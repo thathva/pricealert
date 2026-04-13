@@ -103,11 +103,18 @@ def handle_message(message: str, phone: str, chat_id: str) -> str:
 
 def _dispatch(tool: str, inp: dict[str, object], phone: str, chat_id: str) -> str:
     if tool == "set_alert":
-        asset = cast(str, inp["asset"]).upper()
-        direction = cast(str, inp["direction"])
+        try:
+            asset = str(inp.get("asset", "")).upper()
+            direction = str(inp.get("direction", "")).lower()
+            threshold = float(inp.get("threshold", 0))  # type: ignore[arg-type]
+        except (TypeError, ValueError):
+            return "Sorry, I couldn't parse that. Try: 'alert me when BTC drops below 60k'"
+        if asset not in ("BTC", "ETH", "SOL", "AVAX", "BNB"):
+            return f"Unknown asset '{asset}'. Supported: BTC, ETH, SOL, AVAX, BNB."
         if direction not in ("above", "below"):
-            return f"Direction must be 'above' or 'below', got '{direction}'. Please clarify."
-        threshold = float(cast(str | float, inp["threshold"]))
+            return f"Direction must be 'above' or 'below'. Please clarify."
+        if threshold <= 0:
+            return "Threshold must be a positive number."
         alert_svc.create(phone=phone, chat_id=chat_id, asset=asset, direction=cast(Direction, direction), threshold=threshold)
         return f"Got it! I'll text you when {asset} goes {direction} ${threshold:,.0f}. Reply 'what am I tracking?' anytime."
 

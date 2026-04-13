@@ -14,12 +14,20 @@ export function SimControls() {
     if (isNaN(price) || price <= 0) return;
 
     setOverrideStatus(`Setting ${asset} to $${price}…`);
-    await fetch("/api/sim/prices", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ asset, price }),
-    });
-    setOverrideStatus(`${asset} set to $${price} — alerts evaluated`);
+    try {
+      const res = await fetch("/api/sim/prices", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ asset, price }),
+      });
+      if (!res.ok) {
+        setOverrideStatus(`Error: server returned ${res.status}`);
+      } else {
+        setOverrideStatus(`${asset} set to $${price} — alerts evaluated`);
+      }
+    } catch {
+      setOverrideStatus("Error: could not reach server");
+    }
     setTimeout(() => setOverrideStatus(null), 3000);
   }
 

@@ -29,7 +29,7 @@ def send_message(chat_id: str, text: str) -> None:
 def verify_webhook_signature(raw_body: bytes, timestamp: str, signature: str) -> bool:
     secret = settings.linq_webhook_secret
     if not secret:
-        return True
+        raise ValueError("LINQ_WEBHOOK_SECRET is not configured")
     message = f"{timestamp}.{raw_body.decode()}"
     expected = hmac.new(secret.encode(), message.encode(), hashlib.sha256).hexdigest()
     return hmac.compare_digest(expected, signature)
