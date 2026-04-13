@@ -1,0 +1,20 @@
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-surface-base text-ink font-mono;
+  }
+}
+
+@layer utilities {
+  .blink {
+    animation: blink 1.2s step-start infinite;
+  }
+  @keyframes blink {
+    50% { opacity: 0.2; }
+  }
+}
