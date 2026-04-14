@@ -105,22 +105,20 @@ what am I tracking?
 cancel my BTC alert
 ```
 
-## Assumptions & Future Work
+## Future Work
 
 The following were out of scope for this prototype but are the natural next steps:
 
 **Rate limiting on alert creation** - a user can create unlimited alerts via SMS. A per-phone token bucket (e.g. 5 alerts/hour) would prevent abuse.
 
-**Webhook payload validation** - inbound Linq payloads are currently validated with `.get()` chaining. A Pydantic model would make the contract explicit and fail fast on unexpected shapes.
-
-**Input validation on LLM outputs** - Claude's tool call outputs (asset name, direction, threshold) are trusted as-is. A validation layer before database writes would catch any malformed LLM responses.
+**Sender error handling** - HTTP 4xx responses (bad request, auth failure, not found) are dead-lettered immediately rather than retried, since they will never succeed. Only 5xx and network errors are retried with backoff.
 
 **WebSocket back-pressure** - if a client's event queue fills up (maxsize=100), events are dropped. For a production system, the queue should drain old events or disconnect the slow client explicitly rather than silently losing data.
 
 **Database retention** - alerts and trigger history grow unbounded. A background job pruning records older than N days would be needed at scale.
 
-**Real price feed** - the sine wave poller is a stand-in for a push-based price feed. In production, prices would come from an exchange WebSocket stream (e.g. Binance `!miniTicker@arr`, which publishes all spot prices every second) rather than a 30-second timer. The swap requires no architectural changes: replace the `_run_poller` loop in `main.py` with a WebSocket client coroutine, and replace `_simulate()` with a parser for the exchange message format. Threshold evaluation and dashboard broadcasting are untouched since both paths bottom out in `poller._publish()`.
+**Real price feed** - the sine wave poller is a stand-in for a push-based price feed. In production, prices would come from an exchange WebSocket stream rather than a 30-second timer.
 
 **Tests** - the message queue state machine (queued → sending → delivered/failed → dead_letter) and threshold evaluation logic in the poller are the highest-value targets for unit tests.
 
-**React error boundary** - a single component exception currently crashes the entire dashboard. An `ErrorBoundary` wrapper would isolate failures.
+**React error boundary** - an `ErrorBoundary` wrapper isolates component failures so a single exception doesn't crash the entire dashboard.
