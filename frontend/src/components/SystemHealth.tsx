@@ -61,12 +61,6 @@ export function SystemHealth({ queue, alerts }: Props) {
   return (
     <div className="flex gap-3 flex-wrap">
       <MetricCard
-        label="Queue Depth"
-        value={m.queueDepth}
-        sub={m.inFlight > 0 ? `${m.inFlight} in flight` : "idle"}
-        accent={m.queueDepth > 10 ? "text-amber-400" : "text-ink"}
-      />
-      <MetricCard
         label="Success Rate"
         value={`${m.successRate}%`}
         sub={`${m.delivered} delivered · ${m.failed} failed`}
