@@ -56,7 +56,7 @@ export function QueueLog({ messages }: Props) {
                 <td className="px-4 py-2 text-center">
                   {msg.retry_count > 0
                     ? <span className="text-amber-400">{msg.retry_count}×</span>
-                    : <span className="text-ink-dim">—</span>}
+                    : <span className="text-ink-dim">-</span>}
                 </td>
                 <td className="px-4 py-2 text-ink-muted max-w-xs truncate" title={msg.body}>
                   {msg.body}

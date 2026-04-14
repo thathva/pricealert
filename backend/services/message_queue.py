@@ -1,4 +1,4 @@
-"""Message queue — enqueue outbound messages and manage their state machine."""
+"""Message queue - enqueue outbound messages and manage their state machine."""
 from __future__ import annotations
 
 import asyncio

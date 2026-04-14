@@ -46,7 +46,7 @@ def _publish(prices: Prices) -> None:
            (alert.direction == "below" and price <= alert.threshold):
             alert_svc.deactivate(alert.id)
             body = (
-                f"Alert fired: {alert.asset} is ${price:,.2f} — "
+                f"Alert fired: {alert.asset} is ${price:,.2f} - "
                 f"{alert.direction} your ${alert.threshold:,.0f} threshold."
             )
             msg_id = message_queue.enqueue(chat_id=alert.chat_id, phone=alert.phone, body=body, alert_id=alert.id)

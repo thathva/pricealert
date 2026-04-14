@@ -23,7 +23,7 @@ export function SimControls() {
       if (!res.ok) {
         setOverrideStatus(`Error: server returned ${res.status}`);
       } else {
-        setOverrideStatus(`${asset} set to $${price} — alerts evaluated`);
+        setOverrideStatus(`${asset} set to $${price} - alerts evaluated`);
       }
     } catch {
       setOverrideStatus("Error: could not reach server");

@@ -19,7 +19,7 @@ export function PriceTicker({ prices }: Props) {
           <div key={asset} className="flex flex-col">
             <span className="text-xs text-ink-muted">{asset}</span>
             <span className="text-sm font-semibold text-ink">
-              {prices[asset] != null ? fmt(prices[asset]) : "—"}
+              {prices[asset] != null ? fmt(prices[asset]) : "-"}
             </span>
           </div>
         ))}

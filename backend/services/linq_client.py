@@ -1,4 +1,4 @@
-"""Linq API client — narrow interface, all HTTP details stay here."""
+"""Linq API client - narrow interface, all HTTP details stay here."""
 from __future__ import annotations
 
 import hashlib

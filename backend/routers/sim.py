@@ -1,4 +1,4 @@
-"""Price endpoints — current prices and simulation overrides."""
+"""Price endpoints - current prices and simulation overrides."""
 from __future__ import annotations
 
 from fastapi import APIRouter

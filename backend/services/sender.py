@@ -1,4 +1,4 @@
-"""Queue processor — drains queued messages and retries on failure."""
+"""Queue processor - drains queued messages and retries on failure."""
 from __future__ import annotations
 
 import logging
@@ -19,7 +19,7 @@ def _send(msg: QueueMessage) -> None:
         logger.info("delivered msg %d to %s", msg.id, msg.phone)
     except httpx.HTTPStatusError as exc:
         status = exc.response.status_code
-        logger.warning("msg %d HTTP %d — %s", msg.id, status, exc)
+        logger.warning("msg %d HTTP %d - %s", msg.id, status, exc)
         # Non-retryable: bad request, auth failure, not found
         if status in (400, 401, 403, 404):
             message_queue.set_state(msg.id, "dead_letter", error=str(exc), retry_count=msg.retry_count + 1)

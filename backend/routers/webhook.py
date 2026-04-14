@@ -1,4 +1,4 @@
-"""Inbound webhook from Linq — receives messages, parses intent, enqueues reply."""
+"""Inbound webhook from Linq - receives messages, parses intent, enqueues reply."""
 from __future__ import annotations
 
 import logging
@@ -20,9 +20,9 @@ class _Part(BaseModel):
 
 class _MessageData(BaseModel):
     model_config = ConfigDict(extra="ignore")
-    chat: dict[str, str]
+    chat: dict[str, object]
     parts: list[_Part] = []
-    sender_handle: dict[str, str]
+    sender_handle: dict[str, object]
     direction: str
 
 class _Payload(BaseModel):
@@ -55,8 +55,8 @@ async def receive_webhook(
     if data.direction != "inbound" or not text_part:
         return {"ok": True}
 
-    phone = data.sender_handle["handle"]
-    chat_id = data.chat["id"]
+    phone = str(data.sender_handle["handle"])
+    chat_id = str(data.chat["id"])
 
     alert_svc.upsert_session(phone, chat_id)
 

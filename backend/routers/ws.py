@@ -1,4 +1,4 @@
-"""WebSocket endpoint — one persistent connection per dashboard client."""
+"""WebSocket endpoint - one persistent connection per dashboard client."""
 from __future__ import annotations
 
 import logging

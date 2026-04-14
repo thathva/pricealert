@@ -1,4 +1,4 @@
-"""WebSocket broadcaster — single hub for pushing real-time state to dashboard clients.
+"""WebSocket broadcaster - single hub for pushing real-time state to dashboard clients.
 
 Services call broadcast() after any mutation. The WebSocket endpoint subscribes and
 streams events to connected browsers. Thread-safe: background threads use
@@ -38,7 +38,7 @@ def _deliver(msg: str) -> None:
         try:
             q.put_nowait(msg)
         except asyncio.QueueFull:
-            logger.warning("slow WebSocket client — event dropped")
+            logger.warning("slow WebSocket client - event dropped")
 
 
 def broadcast(event: str, data: object) -> None:

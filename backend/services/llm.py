@@ -1,4 +1,4 @@
-"""LLM intent parsing — translates natural language SMS into structured alert actions."""
+"""LLM intent parsing - translates natural language SMS into structured alert actions."""
 from __future__ import annotations
 
 import logging
@@ -18,7 +18,7 @@ _client = anthropic.Anthropic(api_key=settings.anthropic_api_key)
 _SYSTEM = """\
 You are a concise crypto price alert assistant accessed via iMessage/SMS.
 Users set, check, and cancel price alerts for BTC, ETH, SOL, AVAX, BNB.
-Keep replies SHORT — ideally under 160 characters. This is SMS.
+Keep replies SHORT - ideally under 160 characters. This is SMS.
 Use tools to act. If intent is ambiguous, ask one short clarifying question.
 """
 
